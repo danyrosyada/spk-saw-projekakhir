@@ -8,9 +8,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 
+<script type="text/javascript" language="javascript"
+    src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" language="javascript"
+    src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
 <!-- JS Libraies -->
 
 <!-- Template JS File -->
+
 <script src="{{ asset('assets/js/stisla.js') }}"></script>
 <script src="{{ asset('assets/js/scripts.js') }}"></script>
 <script src="{{ asset('assets/js/custom.js') }}"></script>
+<script src="{{ asset('assets/js/sweetalert.js') }}"></script>

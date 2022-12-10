@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddIsAdminToUsersTable extends Migration
+class CreateCripsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,12 @@ class AddIsAdminToUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->timestamp('deleted_at')->nullable();
-            $table->boolean('is_admin')->default(false);
+        Schema::create('crips', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('kriteria_id');
+            $table->string('nama_crips', 200);
+            $table->integer('bobot');
+            $table->timestamps();
         });
     }
 
@@ -26,8 +29,6 @@ class AddIsAdminToUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('is_admin');
-        });
+        Schema::dropIfExists('crips');
     }
 }

@@ -2,7 +2,8 @@
 <html lang="en">
 
 <head>
-    @include('partials/head')
+    @include('partials.head')
+    @yield('css')
 </head>
 
 <body>
@@ -23,13 +24,14 @@
             </div>
 
             <footer class="main-footer">
-                @include('partials/footer')
+                @include('partials.footer')
             </footer>
         </div>
     </div>
 
     <!-- General JS Scripts -->
-    @include('partials/script')
+    @include('partials.script')
+    @yield('js')
     <!-- Page Specific JS File -->
 </body>
 

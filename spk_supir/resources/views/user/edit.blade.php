@@ -23,7 +23,7 @@
                                             <label for="name">Nama Lengkap</label>
                                             <input id="name" type="text"
                                                 class="form-control rounded-top @error('name') is-invalid @enderror"
-                                                name="name" value="{{ old('name', $user->name) }}" required>
+                                                name="name" value="{{ old('name', $user->name) }}">
                                             @error('name')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
@@ -34,7 +34,7 @@
                                             <label for="username">Username</label>
                                             <input id="username" type="text"
                                                 class="form-control rounded-top @error('username') is-invalid @enderror"
-                                                name="username" value="{{ old('username', $user->username) }}" required>
+                                                name="username" value="{{ old('username', $user->username) }}">
                                             @error('username')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
@@ -45,7 +45,7 @@
                                             <label for="email">Email</label>
                                             <input id="email" type="email"
                                                 class="form-control rounded-top @error('email') is-invalid @enderror"
-                                                name="email" value="{{ old('email', $user->email) }}" required>
+                                                name="email" value="{{ old('email', $user->email) }}">
                                             @error('email')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
@@ -56,7 +56,7 @@
                                             <label for="password" class="d-block">Password</label>
                                             <input id="password" type="password"
                                                 class="form-control pwstrength  rounded-top @error('password') is-invalid @enderror"
-                                                data-indicator="pwindicator" name="password" required>
+                                                data-indicator="pwindicator" name="password">
                                             <div id="pwindicator" class="pwindicator">
                                                 <div class="bar"></div>
                                                 <div class="label"></div>
