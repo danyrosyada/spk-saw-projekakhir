@@ -12,10 +12,5 @@ class Supir extends Model
     protected $table = 'supir';
     protected $guarded = [];
     protected $primaryKey = 'id_supir';
-
-    public function penilaian()
-    {
-        return $this->hasMany(Penilaian::class, 'supir_id');
-    }
-
+    
 }

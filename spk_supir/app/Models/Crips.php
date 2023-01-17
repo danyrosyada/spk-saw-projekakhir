@@ -11,4 +11,11 @@ class Crips extends Model
 
     protected $table = 'crips';
     protected $guarded = [];
+    protected $primaryKey = 'id_crips';
+
+    public function kriteria()
+    {
+        return $this->belongsTo(Kriteria::class, 'id_kriteria');
+    }
+
 }

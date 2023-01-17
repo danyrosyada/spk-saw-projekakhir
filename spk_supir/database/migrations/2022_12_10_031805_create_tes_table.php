@@ -14,8 +14,8 @@ class CreateTesTable extends Migration
     public function up()
     {
         Schema::create('tes', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('kriteria_id');
+            $table->integer('id_tes')->autoIncrement();
+            $table->unsignedBigInteger('id_kriteria');
             $table->timestamps();
         });
     }

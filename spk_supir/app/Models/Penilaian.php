@@ -11,14 +11,21 @@ class Penilaian extends Model
 
     protected $table = 'penilaian';
     protected $guarded = [];
+    protected $primaryKey = 'id_penilaian';
+
+
+    public function detailPenilaian()
+    {
+        return $this->hasMany(DetailPenilaian::class, 'id_penilaian');
+    }
 
     public function supir()
     {
-        return $this->belongsTo(Supir::class, 'supir_id');
-    }
-    public function detailPenilaian()
-    {
-        return $this->hasMany(DetailPenilaian::class, 'penilaian_id');
+        return $this->belongsTo(Supir::class, 'id_supir');
     }
 
+    public function periode()
+    {
+        return $this->belongsTo(Periode::class, 'id_periode');
+    }
 }

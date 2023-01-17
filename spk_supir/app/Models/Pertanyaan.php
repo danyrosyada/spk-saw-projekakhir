@@ -11,4 +11,12 @@ class Pertanyaan extends Model
 
     protected $table = 'pertanyaan';
     protected $guarded = [];
+    protected $primaryKey = 'id_pertanyaan';
+
+
+    public function jawaban()
+    {
+        return $this->hasMany(Jawaban::class, 'id_pertanyaan');
+    }
+
 }

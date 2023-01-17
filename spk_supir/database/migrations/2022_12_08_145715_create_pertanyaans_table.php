@@ -14,10 +14,9 @@ class CreatePertanyaansTable extends Migration
     public function up()
     {
         Schema::create('pertanyaan', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('kriteria_id');
+            $table->integer('id_pertanyaan')->autoIncrement();
+            $table->unsignedBigInteger('id_kriteria');
             $table->string('soal',200);
-            $table->integer('bobot');
             $table->timestamps();
         });
     }

@@ -2,72 +2,145 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DetailPenilaian;
+use App\Models\DetailTes;
 use App\Models\Kriteria;
+use App\Models\Periode;
+use App\Models\Tes;
 use Illuminate\Http\Request;
 use App\Models\Penilaian;
-use App\Models\Supir;
-use Exception;
-use Illuminate\Support\Facades\DB as FacadesDB;
+use Illuminate\Support\Facades\DB;
 
 class PenilaianController extends Controller
 {
 
     public function index()
     {
-        $penilaian = Penilaian::all();
-        $data = [
-            'title' => 'Penilaian',
-            'penilaian' => $penilaian
-        ];
-        return view('penilaian.index', $data);
+        try {
+            $periode = Periode::with('penilaian')->get();
+            $data = [
+                'title' => 'Periode Penilaian',
+                'periode' => $periode
+            ];
+            return view('penilaian.index', $data);
+        } catch (\Throwable $th) {
+            return redirect('penilaian.index')->with('gagal', 'Halaman Gagal Diakses');
+        }
     }
 
-    public function create(){
+    public function show($idPeriode)
+    {
         try {
+            $penilaian = Penilaian::with('periode', 'supir', 'detailPenilaian.crips', 'detailPenilaian.tes.kriteria')->WHERE('id_periode', $idPeriode)->orderBy('total_score')->get();
+            $periode = Periode::findOrFail($idPeriode);
+            $data = [
+                'title' => 'Penilaian',
+                'penilaian' => $penilaian,
+                'periode' => $periode,
+            ];
+            return view('penilaian.show', $data);
+        } catch (\Throwable $th) {
+            return redirect('penilaian.index')->with('gagal', 'Halaman Gagal Diakses');
+        }
+    }
+
+    public function create()
+    {
+        try {
+            $kriteria = Kriteria::with('pertanyaan.jawaban', 'crips')->get();
+            $periode = Periode::WHERE('status', 1)->get();
+            foreach ($periode as $item_periode) {
+                $supir[$item_periode->id_periode] =
+                    DB::select("SELECT * FROM `supir` WHERE `supir`.`id_supir` NOT IN
+                    (select id_supir FROM penilaian WHERE penilaian.id_periode =
+                    $item_periode->id_periode)");
+            }
             $data = [
                 'title' => 'Buat Penilaian',
-                // 'periode' => Periode::all(),
+                'kriteria' => $kriteria,
+                "supir" => $supir,
+                "periode" => $periode,
             ];
             return view('penilaian.create', $data);
         } catch (\Throwable $th) {
-            // return redirect('periode.index')->with('gagal', 'Halaman Gagal Diakses');
+            return redirect('penilaian.index')->with('gagal', 'Halaman Gagal Diakses');
         }
     }
 
-
-    public function index2()
+    public function store(Request $request)
     {
-        $supir = Supir::with('penilaian.crips')->get();
-        $kriteria = Kriteria::with('crips')->orderBy('nama_kriteria', 'ASC')->get();
-        // $data = [
-        //     'title' => 'Penilaian',
-        //     'supir' => compact('supir'),
-        //     'kriteria'=> compact('kriteria'),
-        // ];
-        // return response()->json($kriteria);
-        return view('penilaian.index', compact('supir', 'kriteria'));
+        $total = 0;
+        $penilaian = Penilaian::create([
+            "id_supir" => $request->supir,
+            "id_periode" => $request->periode,
+            "total_score" => 0
+        ]);
+        foreach (($request->test ?? []) as $key => $value) {
+            $createTest = Tes::create([
+                "id_kriteria" => $key,
+            ]);
+            foreach (($value ?? []) as $keyDetail => $detailValue) {
+                $detailTest = DetailTes::create([
+                    "id_tes" => $createTest->id_tes,
+                    "id_pertanyaan" => $keyDetail,
+                    "id_jawaban" => $detailValue
+                ]);
+
+                $total += $detailTest->jawaban->bobot;
+            }
+            DetailPenilaian::create([
+                "id_crips" => null,
+                "id_tes" => $createTest->id_tes,
+                "id_penilaian" => $penilaian->id_penilaian
+            ]);
+        }
+
+        foreach (($request->crips ?? []) as $key => $value) {
+            $detail = DetailPenilaian::create([
+                "id_crips" => $value,
+                "id_tes" => null,
+                "id_penilaian" => $penilaian->id_penilaian
+            ]);
+            $total += $detail->crips->bobot;
+        }
+        $penilaian->total_score = $total;
+        $penilaian->save();
+        return redirect('/penilaian')->with('success', 'Penilaian Berhasil Disimpan');
     }
 
-    public function store2(Request $request)
+    public function detail($idPenilaian)
     {
-
-        return response()->json($request);
         try {
-            // FacadesDB::select("TRUNCATE penilaian");
-            foreach ($request->crips_id as $key => $value) {
-                foreach ($value as $key_1 => $value_1) {
-                    // Penilaian::create([
-                    //     'supir_id' => $key,
-                    //     'crips_id'      => $value_1,
-                    //     'periode_id'      => $request->periode_id,
-                    // ]);
-                    return $key;
+            $penilaian = Penilaian::with(
+                'supir',
+                'periode',
+                'detailPenilaian.crips.kriteria',
+                'detailPenilaian.tes.kriteria'
+            )->WHERE('id_penilaian', $idPenilaian)->first();
+
+            
+            foreach ($penilaian['detailPenilaian'] as $key => $detail) {
+                if ($detail['tes']) {
+                    $penilaian['detailPenilaian'][$key]['tes']['detail_tes'] = DetailTes::with('pertanyaan', 'jawaban')->where('id_tes', $detail['tes']->id_tes)->get();
                 }
             }
-            return back()->with('msg', 'Berhasil Disimpan');
-        } catch (Exception $e) {
-            // \Log::emergency("File:" . $e->getFile() . "Line:" . $e->getLine() . "Message:" . $e->getMessage());
-            // die("Gagal");
+            $data = [
+                'title' => 'Detail Data Penilaian',
+                'penilaian' => $penilaian,
+
+            ];
+            return view('penilaian.detail', $data);
+        } catch (\Throwable $th) {
+           return redirect('/penilaian/' . $idPenilaian)->with('gagal', 'Halaman Gagal Diakses');
         }
+    }
+
+    public function tutup($idPeriode)
+    {
+        $periode = Periode::findOrFail($idPeriode);
+        $periode->update([
+            'status' => 0,
+        ]);
+        return redirect('/penilaian/' . $idPeriode)->with('success', 'Periode Penilaian berhasil ditutup');
     }
 }

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Crips;
-use App\Models\Kriteria;
 use Illuminate\Http\Request;
 
 class CripsController extends Controller
@@ -22,11 +21,11 @@ class CripsController extends Controller
         ]);
 
         $crips = new Crips();
-        $crips->kriteria_id = $request->kriteria_id;
+        $crips->id_kriteria = $request->id_kriteria;
         $crips->nama_crips = $request->nama_crips;
         $crips->bobot = $request->bobot;
         $crips->save();
-        return redirect('/kriteria/' . $request->kriteria_id)->with('success', 'Crips berhasil ditambahkan');
+        return redirect('/kriteria/' . $request->id_kriteria)->with('success', 'Crips berhasil ditambahkan');
         // return redirect('crips')->with('success', 'Crips berhasil ditambahkan');
     }
     public function edit($id)
@@ -47,9 +46,9 @@ class CripsController extends Controller
                 'nama_crips' => $request->nama_crips,
                 'bobot' => $request->bobot,
             ]);
-        return redirect('/kriteria/' . $request->kriteria_id)->with('success', 'Crips berhasil ditambahkan');
-
+            return redirect('/kriteria/' . $request->id_kriteria)->with('success', 'Crips berhasil ditambahkan');
         } catch (\Throwable $th) {
+            return redirect('/kriteria/' . $request->id_kriteria)->with('gagal', 'Crips gagal ditambahkan');
         }
     }
 

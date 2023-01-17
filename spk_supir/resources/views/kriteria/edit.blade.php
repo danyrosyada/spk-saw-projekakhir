@@ -7,23 +7,25 @@
         </div>
         <div class="section-body">
             @if (session()->has('success'))
-                <div class="alert alert-success alert-dismissible show fade" role="alert">
-                    <div class="alert-body">
-                        <button class="close" data-dismiss="alert">
-                            <span>×</span>
-                        </button>
-                        {{ session('success') }}
-                    </div>
-            @endif
-            @if (session()->has('gagal'))
-                <div class="alert alert-danger alert-dismissible show fade">
-                    <div class="alert-body">
-                        <button class="close" data-dismiss="alert">
-                            <span>×</span>
-                        </button>
-                        {{ session('gagal') }}
-                    </div>
-            @endif
+            <div class="alert alert-success alert-dismissible show fade">
+                <div class="alert-body">
+                    <button class="close" data-dismiss="alert">
+                        <span>×</span>
+                    </button>
+                    <i class="fas fa-check-circle"></i>
+                    {{ session('success') }}
+                </div>
+        @endif
+        @if (session()->has('gagal'))
+            <div class="alert alert-danger alert-dismissible show fade">
+                <div class="alert-body">
+                    <button class="close" data-dismiss="alert">
+                        <span>×</span>
+                    </button>
+                    <i class="fas fa-times-circle"></i>
+                    {{ session('gagal') }}
+                </div>
+        @endif
         </div>
         <div class="section-body">
             <div class="row">
@@ -33,14 +35,14 @@
                             <h4>Edit Kriteria {{ $kriteria->nama_kriteria }}</h4>
                         </div>
                         <div class="card-body">
-                            <form action="/kriteria/{{ $kriteria->id }}" method="POST">
+                            <form action="/kriteria/{{ $kriteria->id_kriteria }}" method="POST">
                                 @method('put')
                                 @csrf
                                 <div class="form-group">
                                     <label for="nama_kriteria">Nama Kriteria</label>
                                     <input id="nama_kriteria" type="text"
                                         class="form-control rounded-top @error('nama_kriteria') is-invalid @enderror"
-                                        name="nama_kriteria" value="{{ old('nama_kriteria', $kriteria->nama_kriteria) }}">
+                                        name="nama_kriteria" value="{{ old('nama_kriteria', $kriteria->nama_kriteria) }}" disabled>
                                     @error('nama_kriteria')
                                         <div class="invalid-feedback">
                                             {{ $message }}

@@ -15,8 +15,8 @@ class CreatePeriodeTable extends Migration
     {
         Schema::create('periode', function (Blueprint $table) {
             $table->integer('id_periode')->autoIncrement();
-            $table->string('judul', 200);
-            $table->text('ket');
+            $table->string('judul', 200)->unique();
+            $table->text('ket')->nullable();
             $table->integer('status');
             $table->timestamps();
         });

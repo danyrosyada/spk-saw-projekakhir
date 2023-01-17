@@ -14,8 +14,8 @@ class CreateKriteriasTable extends Migration
     public function up()
     {
         Schema::create('kriteria', function (Blueprint $table) {
-            $table->id();
-            $table->string('nama_kriteria', 200);
+            $table->integer('id_kriteria')->autoIncrement();
+            $table->string('nama_kriteria', 200)->unique();
             $table->enum('jenis', ['Crips', 'Pertanyaan'])->default('Crips');
             $table->enum('attribut', ['Benefit', 'Cost'])->default('Benefit');
             $table->integer('bobot');

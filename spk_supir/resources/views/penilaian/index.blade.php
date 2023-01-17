@@ -12,6 +12,7 @@
                         <button class="close" data-dismiss="alert">
                             <span>×</span>
                         </button>
+                        <i class="fas fa-check-circle"></i>
                         {{ session('success') }}
                     </div>
             @endif
@@ -21,52 +22,57 @@
                         <button class="close" data-dismiss="alert">
                             <span>×</span>
                         </button>
+                        <i class="fas fa-times-circle"></i>
                         {{ session('gagal') }}
                     </div>
             @endif
         </div>
-        <a class="btn btn-icon icon-left btn-primary" href="/penilaian/create" role="button"><i
-                class="fas fa-user-plus"></i>Buat Penilaian
-            Data</a>
+        <a class="btn btn-icon icon-left btn-primary" href="/penilaian/create" role="button">Tambah Penilaian</a>
         <br>
         <br>
         <div class="card card-primary">
+            <div class="card-header">
+                <h4>Data Penilaian Berdasarkan Periode</h4>
+            </div>
             <div class="card-body">
-                <table id="DataTable" class="table table-striped-columns table-hover">
+                <table id="DataTable" class="table table-bordered table-striped-columns table-hover">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Nama</th>
-                            <th scope="col">Username</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Akses</th>
-                            <th scope="col">Aksi</th>
+                            <th scope="col">PERIODE</th>
+                            <th scope="col">KETERANGAN</th>
+                            <th scope="col">STATUS</th>
+                            <th scope="col">JUMLAH PENILAIAN</th>
+                            <th scope="col">AKSI</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {{-- @foreach ($users as $u)
+                        @foreach ($periode as $value)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $u->name }}</td>
-                                <td>{{ $u->username }}</td>
-                                <td>{{ $u->email }}</td>
+                                <td>{{ $value->judul }}</td>
+                                <td>{{ $value->ket }}</td>
                                 <td>
-                                    <div class="badge {{ $u->is_admin == 0 ? 'badge-success' : 'badge-primary' }}">
-                                        {{ $u->is_admin == 0 ? 'Admin' : 'Super Admin' }}</div>
+                                    <div class="badge {{ $value->status == '1' ? 'badge-success' : 'badge-danger' }}">
+                                        {{ $value->status == 1 ? 'Dibuka' : 'Ditutup' }}</div>
                                 </td>
-                                <td>
-                                    <a href="/user/{{ $u->id }}/edit" class="btn btn-sm btn-warning">
-                                        <i class="fa fa-edit"></i></a>
-                                    @if ($u->is_admin == 0)
-                                        <a href="{{ route('user.destroy', $u->id) }}" class="btn btn-sm btn-danger hapus">
-                                            <i class="fas fa-trash-alt"></i></a>
-                                    @endif
+                                <td>{{ count($value->penilaian) }}</td>
+                                <td><a href="/penilaian/{{ $value->id_periode }}" class="btn btn-sm btn-info">
+                                        <i class="fa fa-eye"></i></a>
                                 </td>
                             </tr>
-                        @endforeach --}}
+                        @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
     </section>
-@endsection
+
+@stop
+@section('js')
+    <script>
+        $(document).ready(function() {
+            $('#DataTable').DataTable();
+        });
+    </script>
+@stop

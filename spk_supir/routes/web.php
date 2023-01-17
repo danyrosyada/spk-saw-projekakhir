@@ -37,23 +37,39 @@ Route::post('/logout', [LoginController::class, 'logout']); // post logout siste
 // Route::group(['middleware' => 'super_admin'], function () {
 // });
 
-Route::resource('/user', UserController::class)->middleware('super_admin');
-
+Route::resource('/user', UserController::class)->middleware('super_admin')->except('show')->parameters([
+    'users' => 'users:id_user',
+]);
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
 
-Route::resource('crips', CripsController::class)->middleware('auth');
+Route::resource('crips', CripsController::class)->middleware('super_admin')->parameters([
+    'crips' => 'crips:id_crips',
+]);
 Route::resource('/periode', PeriodeController::class)->middleware('auth')->parameters([
     'periode' => 'periode:id_periode',
-]);
+])->except('show', 'destroy');
 Route::resource('/supir', SupirController::class)->middleware('auth')->parameters([
     'supir' => 'supir:id_supir',
+])->except('show');
+
+Route::resource('/kriteria', KriteriaController::class)->middleware('super_admin')->parameters([
+    'kriteria' => 'kriteria:id_kriteria',
+]);
+Route::resource('/penilaian', PenilaianController::class)->middleware('auth')->parameters([
+    'penilaian' => 'penilaian:id_penilaian',
+]);
+Route::get('/penilaian/detail/{id}', [PenilaianController::class, 'detail'])->middleware('auth');
+Route::resource('supir.penilaian', PenilaianController::class)->middleware('super_admin')->except('show');
+Route::resource('kriteria.pertanyaan', PertanyaanController::class)->middleware('super_admin')->parameters([
+    'pertanyaan' => 'pertanyaan:id_pertanyaan',
 ]);
 
-Route::resource('/kriteria', KriteriaController::class)->middleware('super_admin');
-Route::resource('/penilaian', PenilaianController::class)->middleware('super_admin');
-Route::resource('supir.penilaian', PenilaianController::class)->middleware('super_admin');
-Route::resource('kriteria.pertanyaan', PertanyaanController::class)->middleware('super_admin');
-Route::resource('kriteria.pertanyaan.jawaban', JawabanController::class)->middleware('super_admin');
+Route::resource('kriteria.pertanyaan.jawaban', JawabanController::class)->middleware('super_admin')->parameters([
+    'jawaban' => 'jawaban:id_jawaban',
+]);
 
-Route::get('/perhitungan', [AlgoritmaController::class, 'index'])->name('perhitungan.index')->middleware('auth');
+Route::resource('/perhitungan', AlgoritmaController::class)->middleware('super_admin');
+Route::get('/perhitungan/tahap/{id}', [AlgoritmaController::class, 'tahap'])->middleware('super_admin');
+Route::get('/perhitungan/cetak/{id}', [AlgoritmaController::class, 'cetakRangking'])->middleware('super_admin');
+Route::post('/penilaian/{id}/tutup', [PenilaianController::class, 'tutup'])->middleware('auth')->name('tutup');

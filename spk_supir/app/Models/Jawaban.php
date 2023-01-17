@@ -11,4 +11,6 @@ class Jawaban extends Model
 
     protected $table = 'jawaban';
     protected $guarded = [];
+    protected $primaryKey = 'id_jawaban';
+
 }

@@ -40,25 +40,23 @@ class JawabanController extends Controller
         $this->validate($request, [
             'pg' => 'required|string',
             'jawaban' => 'required|string',
-            'point' => 'required|numeric',
+            'bobot' => 'required|numeric',
         ], [
             'pg.required' => 'Pilihan Ganda Harus diisi',
             'jawaban.required' => 'Jawaban Harus diisi',
-            'point.required' => 'Point Harus diisi',
+            'bobot.required' => 'Bobot Harus diisi',
         ]);
 
         // $bobot = $request->bobot_kriteria / 5;
         $jawaban = new Jawaban();
-        $jawaban->pertanyaan_id = $request->pertanyaan_id;
+        $jawaban->id_pertanyaan = $request->id_pertanyaan;
         $jawaban->pg = $request->pg;
         $jawaban->jawaban = $request->jawaban;
-        $jawaban->point = $request->point;
+        $jawaban->bobot = $request->bobot;
         $jawaban->save();
 
-        return $request;
-        return redirect('/kriteria/' . $request->kriteria_id)->with('success', 'Kriteria berhasil ditambahkan');
-        // return redirect('/kriteria/' . $request->kriteria_id)->with('success', 'Kriteria berhasil ditambahkan');
-    }
+        return redirect('kriteria/' . $request->id_kriteria . '/pertanyaan/' . $request->id_pertanyaan)->with('success', 'Jawaban berhasil disimpan');
+   }
 
     /**
      * Display the specified resource.
@@ -89,7 +87,6 @@ class JawabanController extends Controller
                 'pertanyaan' => $pertanyaan,
                 'jawaban' => $jawaban,
             ];
-            // return $data;
             return view('jawaban.edit', $data);
         } catch (\Throwable $th) {
             // return redirect('/kriteria')->with('gagal', 'Halaman Gagal Diakses');
@@ -108,18 +105,18 @@ class JawabanController extends Controller
         $this->validate($request, [
             'pg' => 'required|string',
             'jawaban' => 'required|string',
-            'point' => 'required|numeric',
+            'bobot' => 'required|numeric',
         ], [
             'pg.required' => 'Pilihan Ganda Harus diisi',
             'jawaban.required' => 'Jawaban Harus diisi',
-            'point.required' => 'Point Harus diisi',
+            'bobot.required' => 'Bobot Harus diisi',
         ]);
 
         $jawaban = Jawaban::findOrFail($id);
         $jawaban->update([
             'pg' => $request->pg,
             'jawaban' => $request->jawaban,
-            'point' => $request->point,
+            'bobot' => $request->bobot,
         ]);
         return redirect('kriteria/' . $kriteriaId . '/pertanyaan/' . $pertanyaanId)->with('success', 'Jawaban berhasil diupdate');
     }

@@ -6,6 +6,7 @@ use App\Models\Jawaban;
 use App\Models\Kriteria;
 use App\Models\Pertanyaan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PertanyaanController extends Controller
 {
@@ -40,20 +41,50 @@ class PertanyaanController extends Controller
             'soal' => 'required|string',
         ], [
             'soal.required' => 'Soal Tes Harus diisi',
-            'bobot.required' => 'Bobot Harus diisi',
         ]);
 
-        $bobot = $request->bobot_kriteria / 5;
         try {
-            $pertanyaan = new Pertanyaan();
-            $pertanyaan->kriteria_id = $request->kriteria_id;
-            $pertanyaan->soal = $request->soal;
-            $pertanyaan->bobot = $bobot;
-            $pertanyaan->save();
-            return redirect('/kriteria/' . $request->kriteria_id)->with('success', 'Kriteria berhasil ditambahkan');
-            // return redirect('/kriteria/' . $request->kriteria_id)->with('success', 'Kriteria berhasil ditambahkan');
+            $pertanyaan = Pertanyaan::create([
+                'id_kriteria' => $request->id_kriteria,
+                'soal' => $request->soal,
+            ]);
+
+            Jawaban::insert([
+                [
+                    'id_pertanyaan' => $pertanyaan->id_pertanyaan,
+                    'pg' => 'A',
+                    'jawaban' => 'Sangat Baik',
+                    'bobot' => 5,
+                ],
+                [
+                    'id_pertanyaan' => $pertanyaan->id_pertanyaan,
+                    'pg' => 'B',
+                    'jawaban' => 'Baik',
+                    'bobot' => 4,
+                ],
+                [
+                    'id_pertanyaan' => $pertanyaan->id_pertanyaan,
+                    'pg' => 'C',
+                    'jawaban' => 'Cukup',
+                    'bobot' => 3,
+                ],
+                [
+                    'id_pertanyaan' => $pertanyaan->id_pertanyaan,
+                    'pg' => 'D',
+                    'jawaban' => 'Buruk',
+                    'bobot' => 2,
+                ],
+                [
+                    'id_pertanyaan' => $pertanyaan->id_pertanyaan,
+                    'pg' => 'E',
+                    'jawaban' => 'Sangat Buruk',
+                    'bobot' => 1,
+                ],
+            ]);
+
+            return redirect('/kriteria/' . $request->id_kriteria)->with('success', 'Pertanyaan berhasil ditambahkan');
         } catch (\Throwable $th) {
-            return redirect('kriteria')->with('gagal', 'Kriteria gagal ditambahkan');
+            return redirect('/kriteria/' . $request->id_kriteria)->with('gagal', 'Pertanyaan gagal ditambahkan');
         }
     }
 
@@ -63,11 +94,11 @@ class PertanyaanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($kriteriaId, $id)
+    public function show($idKriteria, $id)
     {
-        $kriteria = Kriteria::findOrFail($kriteriaId);
+        $kriteria = Kriteria::findOrFail($idKriteria);
         $pertanyaan = Pertanyaan::findOrFail($id);
-        $jawaban = Jawaban::where('pertanyaan_id', $id)->get();
+        $jawaban = Jawaban::where('id_pertanyaan', $id)->get();
 
         $data = [
             'title' => 'Data Soal Tes',
@@ -75,7 +106,6 @@ class PertanyaanController extends Controller
             'pertanyaan' => $pertanyaan,
             'jawaban' => $jawaban,
         ];
-        // return $data;
         return view('pertanyaan.show', $data);
     }
 
@@ -85,22 +115,19 @@ class PertanyaanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($kriteriaId, $id)
+    public function edit($idKriteria, $id)
     {
         try {
-            $kriteria = Kriteria::findOrFail($kriteriaId);
+            $kriteria = Kriteria::findOrFail($idKriteria);
             $pertanyaan = Pertanyaan::findOrFail($id);
-            // $jawaban = Jawaban::findOrFail($id);
             $data = [
                 'title' => 'Edit Kriteria',
                 'kriteria' => $kriteria,
                 'pertanyaan' => $pertanyaan,
-                // 'jawaban' => $jawaban,
             ];
-            // return $data;
             return view('pertanyaan.edit', $data);
         } catch (\Throwable $th) {
-            // return redirect('/kriteria')->with('gagal', 'Halaman Gagal Diakses');
+            return redirect('/kriteria/' . $idKriteria)->with('gagal', 'Pertanyaan gagal diubah');
         }
     }
 
@@ -111,24 +138,19 @@ class PertanyaanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $kriteriaId, $id)
+    public function update(Request $request, $idKriteria, $id)
     {
         $this->validate($request, [
             'soal' => 'required|string',
         ], [
             'soal.required' => 'Soal Tes Harus diisi',
-            // 'bobot.required' => 'Bobot Harus diisi',
         ]);
-
-        $bobot = $request->bobot_kriteria / 5;
 
         $pertanyaan = Pertanyaan::findOrFail($id);
         $pertanyaan->update([
             'soal' => $request->soal,
-            'bobot' => $bobot,
         ]);
-        return redirect('kriteria/' . $kriteriaId)->with('success', 'Jawaban berhasil diupdate');
-   
+        return redirect('kriteria/' . $idKriteria)->with('success', 'Pertanyaan berhasil diupdate');
     }
 
     /**
@@ -137,8 +159,16 @@ class PertanyaanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($kriteriaId, $id)
+    public function destroy($idKriteria, $id)
     {
-        //
+        try {
+            Pertanyaan::destroy($id);
+            $jawaban = Jawaban::where('id_pertanyaan', $id);
+            $jawaban->delete();
+            // $pertanyaan = Pertanyaan::where('id_kriteria', $id);
+            // $pertanyaan->delete();
+        } catch (\Throwable $th) {
+            return redirect('kriteria/' . $idKriteria)->with('gagal', 'Supir gagal dihapus');
+        }
     }
 }

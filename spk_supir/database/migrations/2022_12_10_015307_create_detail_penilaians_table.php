@@ -14,10 +14,10 @@ class CreateDetailPenilaiansTable extends Migration
     public function up()
     {
         Schema::create('detail_penilaian', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('penilaian_id');
-            $table->unsignedBigInteger('crips_id');
-            $table->unsignedBigInteger('tes_id');
+            $table->integer('id_detail_penilaian')->autoIncrement();
+            $table->unsignedBigInteger('id_penilaian');
+            $table->unsignedBigInteger('id_crips')->nullable();
+            $table->unsignedBigInteger('id_tes')->nullable();
             $table->timestamps();
         });
     }

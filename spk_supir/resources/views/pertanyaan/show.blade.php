@@ -5,16 +5,17 @@
         <div class="section-header">
             <div class="col">
                 <h1>Data {{ $kriteria->jenis == 'Pertanyaan' ? '' : 'Crips' }} Jawaban {{ $kriteria->nama_kriteria }}</h1>
-                <a href="/kriteria/{{ $kriteria->id }}" class="btn btn-warning float-right">Kembali</a>
+                {{-- <a href="/kriteria/{{ $kriteria->id_pertanyaan }}" class="btn btn-warning float-right">Kembali</a> --}}
             </div>
         </div>
         <div class="section-body">
             @if (session()->has('success'))
-                <div class="alert alert-success alert-dismissible show fade" role="alert">
+                <div class="alert alert-success alert-dismissible show fade">
                     <div class="alert-body">
                         <button class="close" data-dismiss="alert">
                             <span>×</span>
                         </button>
+                        <i class="fas fa-check-circle"></i>
                         {{ session('success') }}
                     </div>
             @endif
@@ -24,6 +25,7 @@
                         <button class="close" data-dismiss="alert">
                             <span>×</span>
                         </button>
+                        <i class="fas fa-times-circle"></i>
                         {{ session('gagal') }}
                     </div>
             @endif
@@ -36,7 +38,8 @@
                             <h4>Jawaban Tes {{ $pertanyaan->soal }}</h4>
                         </div>
                         <div class="card-body">
-                            <form action="/kriteria/{{ $kriteria->id }}/pertanyaan/{{ $pertanyaan->id }}/jawaban"
+                            <form
+                                action="/kriteria/{{ $kriteria->id_kriteria }}/pertanyaan/{{ $pertanyaan->id_pertanyaan }}/jawaban"
                                 method="POST">
                                 @csrf
                                 <div class="form-group">
@@ -46,12 +49,13 @@
                                         <option value="A">A</option>
                                         <option value="B">B</option>
                                         <option value="C">C</option>
+                                        <option value="D">D</option>
+                                        <option value="E">E</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    {{-- <input type="hidden" value="{{ $kriteria->id }}" name="kriteria_id">
-                                    <input type="hidden" value="{{ $kriteria->bobot }}" name="bobot_kriteria"> --}}
-                                    <input type="hidden" value="{{ $pertanyaan->id }}" name="pertanyaan_id">
+                                    <input type="hidden" value="{{ $pertanyaan->id_pertanyaan }}" name="id_pertanyaan">
+                                    <input type="hidden" value="{{ $kriteria->id_kriteria }}" name="id_kriteria">
                                     <label for="jawaban">Jawaban</label>
                                     <input id="jawaban" type="text"
                                         class="form-control rounded-top @error('jawaban') is-invalid @enderror"
@@ -63,10 +67,10 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="point">Point</label>
-                                    <input class="form-control rounded-top @error('point') is-invalid @enderror"
-                                        name="point" value="{{ old('point') }}" type="number">
-                                    @error('point')
+                                    <label for="bobot">Bobot</label>
+                                    <input class="form-control rounded-top @error('bobot') is-invalid @enderror"
+                                        name="bobot" value="{{ old('bobot') }}" type="number">
+                                    @error('bobot')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -76,7 +80,8 @@
                                     <button type="submit" class="btn btn-primary btn-lg btn-block">
                                         Simpan
                                     </button>
-                                    <a href="/kriteria/{{ $pertanyaan->kriteria_id }}/pertanyaan/{{ $pertanyaan->id }}"class="btn btn-danger btn-lg btn-block">Batal</a>
+                                    <a
+                                        href="/kriteria/{{ $pertanyaan->id_kriteria }}/pertanyaan/{{ $pertanyaan->id_pertanyaan }}"class="btn btn-danger btn-lg btn-block">Batal</a>
                                 </div>
                             </form>
                         </div>
@@ -92,7 +97,7 @@
                                 <table id="Jawaban" class="table table-striped-columns table-hover">
                                     <thead>
                                         <tr>
-                                            <th scope="col">#</th>
+                                            <th scope="col">Pilihan Ganda</th>
                                             <th scope="col">Soal Tes</th>
                                             <th scope="col">Bobot</th>
                                             <th scope="col">Aksi</th>
@@ -103,15 +108,15 @@
                                             <tr>
                                                 <td>{{ $j->pg }}</td>
                                                 <td>{{ $j->jawaban }}</td>
-                                                <td>{{ $j->point }}</td>
+                                                <td>{{ $j->bobot }}</td>
                                                 <td>
                                                     {{-- <a href="/pertanyaan/{{ $j->id }}" class="btn btn-sm btn-info">
                                                         <i class="fa fa-eye"></i></a> --}}
-                                                    <a href="/kriteria/{{ $kriteria->id }}/pertanyaan/{{ $j->pertanyaan_id }}/jawaban/{{ $j->id }}/edit"
+                                                    <a href="/kriteria/{{ $kriteria->id_kriteria }}/pertanyaan/{{ $j->id_pertanyaan }}/jawaban/{{ $j->id_jawaban }}/edit"
                                                         class="btn btn-sm btn-warning">
                                                         <i class="fa fa-edit"></i></a>
                                                     <form
-                                                        action="/kriteria/{{ $kriteria->id }}/pertanyaan/{{ $j->pertanyaan_id }}/jawaban/{{ $j->id }}",
+                                                        action="/kriteria/{{ $kriteria->id_kriteria }}/pertanyaan/{{ $j->id_pertanyaan }}/jawaban/{{ $j->id_jawaban }}",
                                                         method="post" class="d-inline">
                                                         @method('delete')
                                                         @csrf
@@ -144,40 +149,7 @@
 @section('js')
     <script>
         $(document).ready(function() {
-            $('#Crips').DataTable();
             $('#Jawaban').DataTable();
-        })
-        $('.hapus').on('click', function() {
-            swal({
-                    title: "Yakin ingin hapus?",
-                    text: "Sekali dihapus, data tidak dapat dikembalikan!",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        $.ajax({
-                            url: $(this).attr('href'),
-                            type: 'DELETE',
-                            data: {
-                                '_token': "{{ csrf_token() }}"
-                            },
-                            success: function() {
-                                swal("Data Berhasil dihapus!", {
-                                    icon: "success",
-                                }).then((willDelete) => {
-                                    window.location =
-                                        "{{ route('kriteria.show', $kriteria->id) }}"
-                                });
-                            }
-                        })
-
-                    } else {
-                        swal("Data aman tidak dihapus!");
-                    }
-                });
-            return false;
         });
     </script>
 @stop

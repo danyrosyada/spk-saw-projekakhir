@@ -34,10 +34,8 @@ class SupirController extends Controller
     public function create()
     {
         try {
-            $periode = Periode::where('status', 0)->get();
             $data = [
                 'title' => 'Tambah Supir',
-                'periode' => $periode,
             ];
             return view('supir.create', $data);
         } catch (\Throwable $th) {
@@ -54,16 +52,15 @@ class SupirController extends Controller
     public function store(Request $request)
     {
         $validatedData = $this->validate($request, [
-            'periode_id' => 'required',
-            'nama' => 'required|min:3',
+            'nama' => 'required|min:3|unique:supir',
             'lahir' => 'required',
             'tgl_lahir' => 'required',
             'alamat' => 'required|min:4',
             'hp' => 'required|min:6',
 
         ], [
-            'periode_id.required' => 'Periode Harus diisi',
-            'nama.required' => 'Nama Lengkap Harus diisi',
+            'nama.required' => 'Nama Lengkap Harus diisi',            
+            'nama.unique' => 'Nama Supir telah digunakan, tambahkan simbol',
             'nama.min' => 'Nama minimal 3 digit huruf',
             'lahir.required' => 'Tempat Lahir Harus diisi',
             'tgl_lahir.required' => 'Tanggal Lahir Harus diisi',
@@ -73,8 +70,12 @@ class SupirController extends Controller
             'hp.min' => 'No. Hp minimal 6 digit angka',
         ]);
 
-        Supir::create($validatedData);
-        return redirect('supir')->with('success', 'Supir berhasil ditambahkan');
+        try {
+            Supir::create($validatedData);
+            return redirect('/supir')->with('success', 'Supir berhasil ditambahkan');
+        } catch (\Throwable $th) {
+            return redirect('/supir')->with('gagal', 'Supir gagal ditambahkan');
+        }
     }
 
     /**
@@ -85,15 +86,7 @@ class SupirController extends Controller
      */
     public function show(Supir $supir)
     {
-        try {
-            $data = [
-                'title'=> 'Data Supir',
-                'supir'=> $supir,
-            ];
-            return view('penilaian.show', $data);
-        } catch (\Throwable $th) {
-            //throw $th;
-        }
+        // 
     }
 
     /**
@@ -105,16 +98,9 @@ class SupirController extends Controller
     public function edit(Supir $supir)
     {
         try {
-            // $supir = Supir::join('periode', 'periode.id_periode', '=', 'supir.periode_id')
-            //     ->where('periode.id_periode', $supir->periode_id)
-            //     ->where('supir.id_supir', $supir->id_supir)
-            // ->get(['supir.*', 'periode.judul']);
-            $periode = Periode::findOrFail($supir->periode_id);
-
             $data =  [
                 'title' => 'Ubah Supir',
                 'supir' => $supir,
-                'periode' => $periode,
             ];
             return view('supir.edit', $data);
         } catch (\Throwable $th) {
@@ -132,7 +118,6 @@ class SupirController extends Controller
     public function update(Request $request, Supir $supir)
     {
         $validatedData = $this->validate($request, [
-            // 'periode_id' => 'required',
             'nama' => 'required|min:3',
             'lahir' => 'required',
             'tgl_lahir' => 'required',
@@ -140,7 +125,6 @@ class SupirController extends Controller
             'hp' => 'required|min:6',
 
         ], [
-            'periode_id.required' => 'Periode Harus diisi',
             'nama.required' => 'Nama Lengkap Harus diisi',
             'nama.min' => 'Nama minimal 3 digit huruf',
             'lahir.required' => 'Tempat Lahir Harus diisi',
@@ -150,9 +134,12 @@ class SupirController extends Controller
             'hp.required' => 'No. Hp Harus diisi',
             'hp.min' => 'No. Hp minimal 6 digit angka',
         ]);
-
-        Supir::where('id_supir', $supir->id_supir)->update($validatedData);
-        return redirect('supir')->with('success', 'Supir berhasil diupdate');
+        try {
+            Supir::where('id_supir', $supir->id_supir)->update($validatedData);
+            return redirect('/supir')->with('success', 'Supir berhasil diupdate');
+        } catch (\Throwable $th) {
+            return redirect('/supir')->with('gagal', 'Supir gagal diupdate');
+        }
     }
 
     /**
@@ -166,7 +153,7 @@ class SupirController extends Controller
         try {
             Supir::destroy($id);
         } catch (\Throwable $th) {
-            return redirect('supir')->with('gagal', 'Supir gagal dihapus');
+            return redirect('/supir')->with('gagal', 'Supir gagal dihapus');
         }
     }
 }

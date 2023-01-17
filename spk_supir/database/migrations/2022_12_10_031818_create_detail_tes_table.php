@@ -14,10 +14,10 @@ class CreateDetailTesTable extends Migration
     public function up()
     {
         Schema::create('detail_tes', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('tes_id');
-            $table->unsignedBigInteger('pertanyaan_id');
-            $table->unsignedBigInteger('jawaban_id');
+            $table->integer('id_detail_tes')->autoIncrement();
+            $table->unsignedBigInteger('id_tes');
+            $table->unsignedBigInteger('id_pertanyaan');
+            $table->unsignedBigInteger('id_jawaban');
             $table->timestamps();
         });
     }

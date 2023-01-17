@@ -14,8 +14,8 @@ class CreateJawabansTable extends Migration
     public function up()
     {
         Schema::create('jawaban', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('pertanyaan_id');
+            $table->integer('id_jawaban')->autoIncrement();
+            $table->unsignedBigInteger('id_pertanyaan');
             $table->char('pg', 1);
             $table->String('jawaban', 200);
             $table->integer('bobot');

@@ -21,7 +21,7 @@ class PeriodeController extends Controller
             ];
             return view('periode.index', $data);
         } catch (\Throwable $th) {
-            return redirect('periode.index')->with('gagal', 'Halaman Gagal Diakses');
+            return redirect('/periode')->with('gagal', 'Halaman Gagal Diakses');
         }
     }
 
@@ -32,6 +32,14 @@ class PeriodeController extends Controller
      */
     public function create()
     {
+        try {
+            $data = [
+                'title' => 'Tambah Periode',
+            ];
+            return view('periode.create', $data);
+        } catch (\Throwable $th) {
+            return redirect('/periode')->with('gagal', 'Halaman Gagal Diakses');
+        }
     }
 
     /**
@@ -43,19 +51,27 @@ class PeriodeController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'judul' => 'required|string|min:4',
-
+            'judul' => 'required|string|min:4|unique:periode',
         ], [
             'judul.required' => 'Judul Harus diisi',
             'judul.min' => 'Judul Harus 4 digit huruf ataupun angka',
+            'judul.unique' => 'Judul telah digunakan, buat judul lain',
         ]);
-
-        $periode = new Periode();
-        $periode->judul = $request->judul;
-        $periode->ket = $request->ket;
-        $periode->status = 0;
-        $periode->save();
-        return redirect('periode')->with('success', 'Periode berhasil ditambahkan');
+        try {
+            if ($request->ket == null || $request->ket == "") {
+                $ket = "-";
+            } else {
+                $ket = $request->ket;
+            }
+            $periode = new Periode();
+            $periode->judul = $request->judul;
+            $periode->ket = $ket;
+            $periode->status = 1;
+            $periode->save();
+            return redirect('periode')->with('success', 'Periode berhasil ditambahkan');
+        } catch (\Throwable $th) {
+            return redirect('periode')->with('gagal', 'Periode gagal ditambahkan');
+        }
     }
 
     /**
@@ -98,11 +114,11 @@ class PeriodeController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'judul' => 'required|string|min:4',
-
+            'judul' => 'required|string|min:4|unique:periode',
         ], [
             'judul.required' => 'Judul Harus diisi',
             'judul.min' => 'Judul Harus 4 digit huruf ataupun angka',
+            'judul.unique' => 'Judul telah digunakan, buat judul lain',
         ]);
 
         $periode = Periode::findOrFail($id);

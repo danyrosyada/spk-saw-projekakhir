@@ -23,7 +23,7 @@ class KriteriaController extends Controller
             $data = [
                 'title' => 'Kelola Kriteria',
                 'kriteria' => $kriteria,
-                'total'=> $total
+                'total' => $total
             ];
             return view('kriteria.index', $data);
         } catch (\Throwable $th) {
@@ -38,6 +38,18 @@ class KriteriaController extends Controller
      */
     public function create()
     {
+        try {
+            $kriteria = Kriteria::all();
+            $total = $kriteria->sum('bobot');
+
+            $data = [
+                'title' => 'Tambah Kriteria',
+                'total_bobot' => $total,
+            ];
+            return view('kriteria.create', $data);
+        } catch (\Throwable $th) {
+            return redirect('/kriteria')->with('gagal', 'Halaman Gagal Diakses');
+        }
     }
 
     /**
@@ -49,12 +61,13 @@ class KriteriaController extends Controller
     public function store(Request $request)
     {
         $validatedData = $this->validate($request, [
-            'nama_kriteria' => 'required|string',
+            'nama_kriteria' => 'required|string|unique:kriteria',
             'jenis' => 'required|string',
             'attribut' => 'required|string',
             'bobot' => 'required|numeric',
         ], [
             'nama_kriteria.required' => 'Nama Kriteria Harus diisi',
+            'nama_kriteria.unique' => 'Nama Kriteria telah digunakan, buat nama Kriteria lain',
             'jenis.required' => 'Jenis Harus diisi',
             'attribut.required' => 'Attribut Harus diisi',
             'bobot.required' => 'Bobot Harus diisi',
@@ -63,9 +76,9 @@ class KriteriaController extends Controller
 
         try {
             Kriteria::create($validatedData);
-            return back()->with('success', 'Kriteria berhasil ditambahkan');
+            return redirect('/kriteria')->with('success', 'Kriteria berhasil ditambahkan');
         } catch (\Throwable $th) {
-            return redirect('kriteria.index')->with('gagal', 'Kriteria gagal ditambahkan');
+            return redirect('/kriteria')->with('gagal', 'Kriteria gagal ditambahkan');
         }
     }
 
@@ -77,19 +90,23 @@ class KriteriaController extends Controller
      */
     public function show($id)
     {
-        $crips= Crips::where('kriteria_id', $id)->get();
-        $kriteria = Kriteria::findOrFail($id);
-        $pertanyaan = Pertanyaan::where('kriteria_id', $id)->get();
-        $tpertanyaan = $pertanyaan->sum('bobot');
-        
-        $data = [
-            'title' => 'Data Kriteria',
-            'crips' => $crips,
-            'kriteria' => $kriteria,
-            'pertanyaan'=> $pertanyaan,
-            'tpertanyaan'=> $tpertanyaan,
-        ];
-        return view('kriteria.show', $data);
+        try {
+            $crips = Crips::where('id_kriteria', $id)->get();
+            $kriteria = Kriteria::findOrFail($id);
+            $pertanyaan = Pertanyaan::where('id_kriteria', $id)->get();
+            $tpertanyaan = $pertanyaan->sum('bobot');
+
+            $data = [
+                'title' => 'Data Kriteria',
+                'crips' => $crips,
+                'kriteria' => $kriteria,
+                'pertanyaan' => $pertanyaan,
+                'tpertanyaan' => $tpertanyaan,
+            ];
+            return view('kriteria.show', $data);
+        } catch (\Throwable $th) {
+            return redirect('/kriteria')->with('gagal', 'Halaman Gagal Diakses');
+        }
     }
 
     /**
@@ -123,19 +140,17 @@ class KriteriaController extends Controller
     {
         $validatedData = $this->validate($request, [
             'nama_kriteria' => 'required|string',
-            'jenis' => 'required|string',
             'attribut' => 'required|string',
             'bobot' => 'required|numeric',
         ], [
             'nama_kriteria.required' => 'Nama Kriteria Harus diisi',
-            'jenis.required' => 'Jenis Harus diisi',
             'attribut.required' => 'Attribut Harus diisi',
             'bobot.required' => 'Bobot Harus diisi',
             'bobot.numeric' => 'Bobot Harus berisi dengan angka',
         ]);
 
         try {
-            Kriteria::where('id', $id)->update($validatedData);
+            Kriteria::where('id_kriteria', $id)->update($validatedData);
             return redirect('/kriteria')->with('success', 'Kriteria berhasil diupdate');
         } catch (\Throwable $th) {
             return redirect('/kriteria')->with('gagal', 'Kriteria gagal diupdate');
@@ -151,9 +166,12 @@ class KriteriaController extends Controller
     public function destroy($id)
     {
         try {
-            Kriteria::destroy($id);
-            $crips = Crips::where('kriteria_id', $id);
-            $crips->delete();
+            //! delete yang jawaban belum jalan.
+            // Kriteria::destroy($id);
+            // $crips = Crips::where('id_kriteria', $id);
+            // $crips->delete();
+            // $pertanyaan = Pertanyaan::where('id_kriteria', $id);
+            // $pertanyaan->delete();
         } catch (\Throwable $th) {
             return redirect('/kriteria')->with('gagal', 'Kriteria gagal dihapus');
         }

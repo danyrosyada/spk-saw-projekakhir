@@ -22,7 +22,7 @@ class UserController extends Controller
             ];
             return view('user.index', $data);
         } catch (\Throwable $th) {
-            return redirect('user')->with('gagal', 'Halaman Gagal Diakses');
+            return redirect('/user')->with('gagal', 'Halaman Gagal Diakses');
         }
     }
 
@@ -39,7 +39,7 @@ class UserController extends Controller
             ];
             return view('user.create', $data);
         } catch (\Throwable $th) {
-            return redirect('user')->with('gagal', 'Halaman Gagal Diakses');
+            return redirect('/user')->with('gagal', 'Halaman Gagal Diakses');
         }
     }
 
@@ -67,9 +67,13 @@ class UserController extends Controller
             'password.min' => 'Password Minimal 4 digit huruf / angka',
         ]);
 
-        $validatedData['password'] = Hash::make($validatedData['password']);
-        User::create($validatedData);
-        return redirect('user')->with('success', 'User berhasil ditambahkan');
+        try {
+            $validatedData['password'] = Hash::make($validatedData['password']);
+            User::create($validatedData);
+            return redirect('/user')->with('success', 'User berhasil ditambahkan');
+        } catch (\Throwable $th) {
+            return redirect('/user')->with('gagal', 'User gagal ditambahkan');
+        }
     }
 
     /**
@@ -92,14 +96,13 @@ class UserController extends Controller
     public function edit(User $user)
     {
         try {
-
             $data = [
                 'title' => 'Ubah User',
                 'user' => $user,
             ];
             return view('user.edit', $data);
         } catch (\Throwable $th) {
-            return redirect('user')->with('gagal', 'Halaman Gagal Diakses');
+            return redirect('/user')->with('gagal', 'Halaman Gagal Diakses');
         }
     }
 
@@ -128,9 +131,13 @@ class UserController extends Controller
             'password.min' => 'Password Minimal 4 digit huruf / angka',
         ]);
 
-        $validatedData['password'] = Hash::make($validatedData['password']);
-        User::where('id', $id)->update($validatedData);
-        return redirect('user')->with('success', 'User berhasil diubah');
+        try {
+            $validatedData['password'] = Hash::make($validatedData['password']);
+            User::where('id', $id)->update($validatedData);
+            return redirect('/user')->with('success', 'User berhasil diubah');
+        } catch (\Throwable $th) {
+            return redirect('/user')->with('gagal', 'User gagal diubah');
+        }
     }
 
     /**
@@ -144,7 +151,7 @@ class UserController extends Controller
         try {
             User::destroy($id);
         } catch (\Throwable $th) {
-            return redirect('user')->with('gagal', 'User gagal dihapus');
+            return redirect('/user')->with('gagal', 'User gagal dihapus');
         }
     }
 }

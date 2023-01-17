@@ -4,29 +4,10 @@
     <section class="section">
         <div class="section-header">
             <div class="col">
-            <h1>Edit Jawaban {{ $pertanyaan->soal }}</h1>
-            <a href="/kriteria/{{ $pertanyaan->kriteria_id }}/pertanyaan/{{ $pertanyaan->id }}" class="btn btn-warning float-right">Kembali</a>
-        </div>
-        </div>
-        <div class="section-body">
-            @if (session()->has('success'))
-                <div class="alert alert-success alert-dismissible show fade" role="alert">
-                    <div class="alert-body">
-                        <button class="close" data-dismiss="alert">
-                            <span>×</span>
-                        </button>
-                        {{ session('success') }}
-                    </div>
-            @endif
-            @if (session()->has('gagal'))
-                <div class="alert alert-danger alert-dismissible show fade">
-                    <div class="alert-body">
-                        <button class="close" data-dismiss="alert">
-                            <span>×</span>
-                        </button>
-                        {{ session('gagal') }}
-                    </div>
-            @endif
+                <h1>Edit Jawaban {{ $pertanyaan->soal }}</h1>
+                <a href="/kriteria/{{ $pertanyaan->id_kriteria }}/pertanyaan/{{ $pertanyaan->id_pertanyaan }}"
+                    class="btn btn-warning float-right">Kembali</a>
+            </div>
         </div>
         <div class="section-body">
             <div class="row">
@@ -36,7 +17,8 @@
                             <h4>Jawaban Tes {{ $pertanyaan->soal }}</h4>
                         </div>
                         <div class="card-body">
-                            <form action="/kriteria/{{ $kriteria->id }}/pertanyaan/{{ $pertanyaan->id }}/jawaban/{{ $jawaban->id }}"
+                            <form
+                                action="/kriteria/{{ $kriteria->id_kriteria }}/pertanyaan/{{ $pertanyaan->id_pertanyaan }}/jawaban/{{ $jawaban->id_jawaban }}"
                                 method="POST">
                                 @method('put')
                                 @csrf
@@ -54,12 +36,16 @@
                                         <option {{ $jawaban->pg == 'C' ? 'selected' : '' }} value="C">
                                             C
                                         </option>
+                                        <option {{ $jawaban->pg == 'D' ? 'selected' : '' }} value="D">
+                                            D
+                                        </option>
+                                        <option {{ $jawaban->pg == 'E' ? 'selected' : '' }} value="E">
+                                            E
+                                        </option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    {{-- <input type="hidden" value="{{ $kriteria->id }}" name="kriteria_id">
-                    <input type="hidden" value="{{ $kriteria->bobot }}" name="bobot_kriteria"> --}}
-                                    <input type="hidden" value="{{ $pertanyaan->id }}" name="pertanyaan_id">
+                                    <input type="hidden" value="{{ $pertanyaan->id_pertanyaan }}" name="id_pertanyaan">
                                     <label for="jawaban">Jawaban</label>
                                     <input id="jawaban" type="text"
                                         class="form-control rounded-top @error('jawaban') is-invalid @enderror"
@@ -71,10 +57,10 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="point">Point</label>
-                                    <input class="form-control rounded-top @error('point') is-invalid @enderror"
-                                        name="point" value="{{ old('point', $jawaban->point) }}" type="number">
-                                    @error('point')
+                                    <label for="bobot">Bobot</label>
+                                    <input class="form-control rounded-top @error('bobot') is-invalid @enderror"
+                                        name="bobot" value="{{ old('bobot', $jawaban->bobot) }}" type="number">
+                                    @error('bobot')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -84,7 +70,8 @@
                                     <button type="submit" class="btn btn-primary btn-lg btn-block">
                                         Update
                                     </button>
-                                    <a href="/kriteria/{{ $pertanyaan->kriteria_id }}/pertanyaan/{{ $pertanyaan->id }}"class="btn btn-danger btn-lg btn-block">Batal</a>
+                                    <a
+                                        href="/kriteria/{{ $pertanyaan->id_kriteria }}/pertanyaan/{{ $pertanyaan->id_pertanyaan }}"class="btn btn-danger btn-lg btn-block">Batal</a>
                                 </div>
                             </form>
                         </div>

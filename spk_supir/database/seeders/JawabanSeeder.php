@@ -15,195 +15,312 @@ class JawabanSeeder extends Seeder
     public function run()
     {
         DB::table('jawaban')->insert([
-            'pertanyaan_id' => '1',
+            'id_pertanyaan' => '1',
             'pg' => 'A',
-            'jawaban' => 'Bagus',
+            'jawaban' => 'Sangat Baik',
             'bobot' => 5,
         ]);
         DB::table('jawaban')->insert([
-            'pertanyaan_id' => '1',
+            'id_pertanyaan' => '1',
+            'pg' => 'B',
+            'jawaban' => 'Baik',
+            'bobot' => 4,
+        ]);
+        DB::table('jawaban')->insert([
+            'id_pertanyaan' => '1',
             'pg' => 'C',
-            'jawaban' => 'Lumayan',
+            'jawaban' => 'Cukup',
             'bobot' => 3,
         ]);
         DB::table('jawaban')->insert([
-            'pertanyaan_id' => '1',
-            'pg' => 'C',
-            'jawaban' => 'Kurang',
+            'id_pertanyaan' => '1',
+            'pg' => 'D',
+            'jawaban' => 'Buruk',
+            'bobot' => 2,
+        ]);
+        DB::table('jawaban')->insert([
+            'id_pertanyaan' => '1',
+            'pg' => 'E',
+            'jawaban' => 'Sangat Buruk',
             'bobot' => 1,
         ]);
 
         DB::table('jawaban')->insert([
-            'pertanyaan_id' => '2',
+            'id_pertanyaan' => '2',
             'pg' => 'A',
-            'jawaban' => 'Bagus',
+            'jawaban' => 'Sangat Baik',
             'bobot' => 5,
         ]);
         DB::table('jawaban')->insert([
-            'pertanyaan_id' => '2',
+            'id_pertanyaan' => '2',
+            'pg' => 'B',
+            'jawaban' => 'Baik',
+            'bobot' => 4,
+        ]);
+        DB::table('jawaban')->insert([
+            'id_pertanyaan' => '2',
             'pg' => 'C',
-            'jawaban' => 'Lumayan',
+            'jawaban' => 'Cukup',
             'bobot' => 3,
         ]);
         DB::table('jawaban')->insert([
-            'pertanyaan_id' => '2',
-            'pg' => 'C',
-            'jawaban' => 'Kurang',
+            'id_pertanyaan' => '2',
+            'pg' => 'D',
+            'jawaban' => 'Buruk',
+            'bobot' => 2,
+        ]);
+        DB::table('jawaban')->insert([
+            'id_pertanyaan' => '2',
+            'pg' => 'E',
+            'jawaban' => 'Sangat Buruk',
             'bobot' => 1,
         ]);
 
         DB::table('jawaban')->insert([
-            'pertanyaan_id' => '3',
+            'id_pertanyaan' => '3',
             'pg' => 'A',
-            'jawaban' => 'Bagus',
+            'jawaban' => 'Sangat Baik',
             'bobot' => 5,
         ]);
         DB::table('jawaban')->insert([
-            'pertanyaan_id' => '3',
+            'id_pertanyaan' => '3',
+            'pg' => 'B',
+            'jawaban' => 'Baik',
+            'bobot' => 4,
+        ]);
+        DB::table('jawaban')->insert([
+            'id_pertanyaan' => '3',
             'pg' => 'C',
-            'jawaban' => 'Lumayan',
+            'jawaban' => 'Cukup',
             'bobot' => 3,
         ]);
         DB::table('jawaban')->insert([
-            'pertanyaan_id' => '3',
-            'pg' => 'C',
-            'jawaban' => 'Kurang',
+            'id_pertanyaan' => '3',
+            'pg' => 'D',
+            'jawaban' => 'Buruk',
+            'bobot' => 2,
+        ]);
+        DB::table('jawaban')->insert([
+            'id_pertanyaan' => '3',
+            'pg' => 'E',
+            'jawaban' => 'Sangat Buruk',
             'bobot' => 1,
         ]);
 
         DB::table('jawaban')->insert([
-            'pertanyaan_id' => '4',
+            'id_pertanyaan' => '4',
             'pg' => 'A',
-            'jawaban' => 'Bagus',
+            'jawaban' => 'Sangat Baik',
             'bobot' => 5,
         ]);
         DB::table('jawaban')->insert([
-            'pertanyaan_id' => '4',
+            'id_pertanyaan' => '4',
+            'pg' => 'B',
+            'jawaban' => 'Baik',
+            'bobot' => 4,
+        ]);
+        DB::table('jawaban')->insert([
+            'id_pertanyaan' => '4',
             'pg' => 'C',
-            'jawaban' => 'Lumayan',
+            'jawaban' => 'Cukup',
             'bobot' => 3,
         ]);
         DB::table('jawaban')->insert([
-            'pertanyaan_id' => '4',
-            'pg' => 'C',
-            'jawaban' => 'Kurang',
+            'id_pertanyaan' => '4',
+            'pg' => 'D',
+            'jawaban' => 'Buruk',
+            'bobot' => 2,
+        ]);
+        DB::table('jawaban')->insert([
+            'id_pertanyaan' => '4',
+            'pg' => 'E',
+            'jawaban' => 'Sangat Buruk',
             'bobot' => 1,
         ]);
 
         DB::table('jawaban')->insert([
-            'pertanyaan_id' => '5',
+            'id_pertanyaan' => '5',
             'pg' => 'A',
-            'jawaban' => 'Bagus',
+            'jawaban' => 'Sangat Baik',
             'bobot' => 5,
         ]);
         DB::table('jawaban')->insert([
-            'pertanyaan_id' => '5',
+            'id_pertanyaan' => '5',
+            'pg' => 'B',
+            'jawaban' => 'Baik',
+            'bobot' => 4,
+        ]);
+        DB::table('jawaban')->insert([
+            'id_pertanyaan' => '5',
             'pg' => 'C',
-            'jawaban' => 'Lumayan',
+            'jawaban' => 'Cukup',
             'bobot' => 3,
         ]);
         DB::table('jawaban')->insert([
-            'pertanyaan_id' => '5',
-            'pg' => 'C',
-            'jawaban' => 'Kurang',
-            'bobot' => 1,
-        ]);
-
-        
-
-
-        DB::table('jawaban')->insert([
-            'pertanyaan_id' => '6',
-            'pg' => 'A',
-            'jawaban' => 'Bagus',
-            'bobot' => 5,
+            'id_pertanyaan' => '5',
+            'pg' => 'D',
+            'jawaban' => 'Buruk',
+            'bobot' => 2,
         ]);
         DB::table('jawaban')->insert([
-            'pertanyaan_id' => '6',
-            'pg' => 'C',
-            'jawaban' => 'Lumayan',
-            'bobot' => 3,
-        ]);
-        DB::table('jawaban')->insert([
-            'pertanyaan_id' => '6',
-            'pg' => 'C',
-            'jawaban' => 'Kurang',
+            'id_pertanyaan' => '5',
+            'pg' => 'E',
+            'jawaban' => 'Sangat Buruk',
             'bobot' => 1,
         ]);
 
         DB::table('jawaban')->insert([
-            'pertanyaan_id' => '7',
+            'id_pertanyaan' => '6',
             'pg' => 'A',
-            'jawaban' => 'Bagus',
+            'jawaban' => 'Sangat Baik',
             'bobot' => 5,
         ]);
         DB::table('jawaban')->insert([
-            'pertanyaan_id' => '7',
+            'id_pertanyaan' => '6',
+            'pg' => 'B',
+            'jawaban' => 'Baik',
+            'bobot' => 4,
+        ]);
+        DB::table('jawaban')->insert([
+            'id_pertanyaan' => '6',
             'pg' => 'C',
-            'jawaban' => 'Lumayan',
+            'jawaban' => 'Cukup',
             'bobot' => 3,
         ]);
         DB::table('jawaban')->insert([
-            'pertanyaan_id' => '7',
-            'pg' => 'C',
-            'jawaban' => 'Kurang',
+            'id_pertanyaan' => '6',
+            'pg' => 'D',
+            'jawaban' => 'Buruk',
+            'bobot' => 2,
+        ]);
+        DB::table('jawaban')->insert([
+            'id_pertanyaan' => '6',
+            'pg' => 'E',
+            'jawaban' => 'Sangat Buruk',
             'bobot' => 1,
         ]);
 
         DB::table('jawaban')->insert([
-            'pertanyaan_id' => '8',
+            'id_pertanyaan' => '7',
             'pg' => 'A',
-            'jawaban' => 'Bagus',
+            'jawaban' => 'Sangat Baik',
             'bobot' => 5,
         ]);
         DB::table('jawaban')->insert([
-            'pertanyaan_id' => '8',
+            'id_pertanyaan' => '7',
+            'pg' => 'B',
+            'jawaban' => 'Baik',
+            'bobot' => 4,
+        ]);
+        DB::table('jawaban')->insert([
+            'id_pertanyaan' => '7',
             'pg' => 'C',
-            'jawaban' => 'Lumayan',
+            'jawaban' => 'Cukup',
             'bobot' => 3,
         ]);
         DB::table('jawaban')->insert([
-            'pertanyaan_id' => '8',
-            'pg' => 'C',
-            'jawaban' => 'Kurang',
+            'id_pertanyaan' => '7',
+            'pg' => 'D',
+            'jawaban' => 'Buruk',
+            'bobot' => 2,
+        ]);
+        DB::table('jawaban')->insert([
+            'id_pertanyaan' => '7',
+            'pg' => 'E',
+            'jawaban' => 'Sangat Buruk',
             'bobot' => 1,
         ]);
 
         DB::table('jawaban')->insert([
-            'pertanyaan_id' => '9',
+            'id_pertanyaan' => '8',
             'pg' => 'A',
-            'jawaban' => 'Bagus',
+            'jawaban' => 'Sangat Baik',
             'bobot' => 5,
         ]);
         DB::table('jawaban')->insert([
-            'pertanyaan_id' => '9',
+            'id_pertanyaan' => '8',
+            'pg' => 'B',
+            'jawaban' => 'Baik',
+            'bobot' => 4,
+        ]);
+        DB::table('jawaban')->insert([
+            'id_pertanyaan' => '8',
             'pg' => 'C',
-            'jawaban' => 'Lumayan',
+            'jawaban' => 'Cukup',
             'bobot' => 3,
         ]);
         DB::table('jawaban')->insert([
-            'pertanyaan_id' => '9',
-            'pg' => 'C',
-            'jawaban' => 'Kurang',
+            'id_pertanyaan' => '8',
+            'pg' => 'D',
+            'jawaban' => 'Buruk',
+            'bobot' => 2,
+        ]);
+        DB::table('jawaban')->insert([
+            'id_pertanyaan' => '8',
+            'pg' => 'E',
+            'jawaban' => 'Sangat Buruk',
             'bobot' => 1,
         ]);
 
         DB::table('jawaban')->insert([
-            'pertanyaan_id' => '10',
+            'id_pertanyaan' => '9',
             'pg' => 'A',
-            'jawaban' => 'Bagus',
+            'jawaban' => 'Sangat Baik',
             'bobot' => 5,
         ]);
         DB::table('jawaban')->insert([
-            'pertanyaan_id' => '10',
+            'id_pertanyaan' => '9',
+            'pg' => 'B',
+            'jawaban' => 'Baik',
+            'bobot' => 4,
+        ]);
+        DB::table('jawaban')->insert([
+            'id_pertanyaan' => '9',
             'pg' => 'C',
-            'jawaban' => 'Lumayan',
+            'jawaban' => 'Cukup',
             'bobot' => 3,
         ]);
         DB::table('jawaban')->insert([
-            'pertanyaan_id' => '10',
+            'id_pertanyaan' => '9',
+            'pg' => 'D',
+            'jawaban' => 'Buruk',
+            'bobot' => 2,
+        ]);
+        DB::table('jawaban')->insert([
+            'id_pertanyaan' => '9',
+            'pg' => 'E',
+            'jawaban' => 'Sangat Buruk',
+            'bobot' => 1,
+        ]);
+
+        DB::table('jawaban')->insert([
+            'id_pertanyaan' => '10',
+            'pg' => 'A',
+            'jawaban' => 'Sangat Baik',
+            'bobot' => 5,
+        ]);
+        DB::table('jawaban')->insert([
+            'id_pertanyaan' => '10',
+            'pg' => 'B',
+            'jawaban' => 'Baik',
+            'bobot' => 4,
+        ]);
+        DB::table('jawaban')->insert([
+            'id_pertanyaan' => '10',
             'pg' => 'C',
-            'jawaban' => 'Kurang',
+            'jawaban' => 'Cukup',
+            'bobot' => 3,
+        ]);
+        DB::table('jawaban')->insert([
+            'id_pertanyaan' => '10',
+            'pg' => 'D',
+            'jawaban' => 'Buruk',
+            'bobot' => 2,
+        ]);
+        DB::table('jawaban')->insert([
+            'id_pertanyaan' => '10',
+            'pg' => 'E',
+            'jawaban' => 'Sangat Buruk',
             'bobot' => 1,
         ]);
     }

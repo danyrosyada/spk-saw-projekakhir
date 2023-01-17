@@ -3,140 +3,75 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>Perhitungan Saw</h1>
+            <h1>Data Perhitungan</h1>
         </div>
         <div class="section-body">
-            <div class="card card-primary">
-                <div class="card-header">
-                    <h4>Tahap Analisa</h4>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table id="tb_analisa" class="table table-hover table-bordered">
-                            <thead>
-                                <tr>
-                                    <th> Nama Supir </th>
-                                    @foreach ($kriteria as $key => $value)
-                                        <th>{{ $value->nama_kriteria }}</th>
-                                    @endforeach
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse($supir as $alt => $valt)
-                                    <tr>
-                                        <td>{{ $valt->nama }}</td>
-                                        @if (count($valt->penilaian) > 0)
-                                            @foreach ($valt->penilaian as $key => $value)
-                                                <td>
-                                                    {{ $value->crips->bobot }}
-                                                </td>
-                                            @endforeach
-                                        @endif
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td> Tidak ada data </td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                        </form>
+            @if (session()->has('success'))
+                <div class="alert alert-success alert-dismissible show fade">
+                    <div class="alert-body">
+                        <button class="close" data-dismiss="alert">
+                            <span>×</span>
+                        </button>
+                        <i class="fas fa-check-circle"></i>
+                        {{ session('success') }}
                     </div>
-                </div>
+            @endif
+            @if (session()->has('gagal'))
+                <div class="alert alert-danger alert-dismissible show fade">
+                    <div class="alert-body">
+                        <button class="close" data-dismiss="alert">
+                            <span>×</span>
+                        </button>
+                        <i class="fas fa-exclamation-triangle"></i>
+                        {{ session('gagal') }}
+                    </div>
+            @endif
+        </div>
+        <div class="card card-primary">
+            <div class="card-header">
+                <h4>Data Perhitungan Berdasarkan Periode</h4>
+            </div>
+            <div class="card-body">
+                <table id="DataTable" class="table table-bordered table-striped-columns table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">JUDUL</th>
+                            <th scope="col">KETERANGAN</th>
+                            <th scope="col">STATUS</th>
+                            <th scope="col">JUMLAH PENILAIAN</th>
+                            <th scope="col">AKSI</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($periode as $value)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $value->judul }}</td>
+                                <td>{{ $value->ket }}</td>
+                                <td>
+                                    <div class="badge {{ $value->status == '1' ? 'badge-success' : 'badge-danger' }}">
+                                        {{ $value->status == 1 ? 'Dibuka' : 'Ditutup' }}</div>
+                                </td>
+                                <td>{{ count($value->penilaian) }}</td>
+                                <td><a href="/perhitungan/{{ $value->id_periode }}" class="btn btn-sm btn-info">
+                                        {{-- <i class="fa fa-eye"></i> --}}
+                                    Rangking
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
-
-        <div class="section-body">
-            <div class="card card-primary">
-                <div class="card-header">
-                    <h4>Tahap Normalisasi</h4>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table id="tb_normalisasi" class="table table-hover table-bordered">
-                            <thead>
-                                <tr>
-                                    <th> Nama Supir / Kriteria </th>
-                                    @foreach ($kriteria as $key => $value)
-                                        <th>{{ $value->nama_kriteria }}</th>
-                                    @endforeach
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($normalisasi as $key => $value)
-                                    <tr>
-                                        <td>{{ $key }}</td>
-                                        @foreach ($value as $key_1 => $value_1)
-                                            <td>
-                                                {{ $value_1 }}
-                                                {{-- @if ($value[count($value) - 1] != $key_1)
-                                                {{ $value_1 }}
-                                            @endif --}}
-                                            </td>
-                                        @endforeach
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="section-body">
-            <div class="card card-primary">
-                <div class="card-header">
-                    <h4>Tahap Perangkingan</h4>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table id="tb_rangking" class="table table-hover table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        Bobot
-                                    </th>
-                                    @foreach ($kriteria as $key => $value)
-                                        <th>{{ $value->bobot }}</th>
-                                    @endforeach
-                                    <th></th>
-                                    <th></th>
-                                </tr>
-                                <tr>
-                                    <th>Supir</th>
-                                    @foreach ($kriteria as $key => $value)
-                                        <th>{{ $value->nama_kriteria }}</th>
-                                    @endforeach
-                                    <th>Total</th>
-                                    <th>Rangking</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @php $no = 1; @endphp
-                                @foreach ($rangking as $key => $value)
-                                    <tr>
-                                        <td>{{ $key }}</td>
-                                        @foreach ($value as $key_1 => $value_1)
-                                            <td>{{ number_format($value_1, 1) }}</td>
-                                        @endforeach
-                                        <td>{{ $no++ }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+    </section>
     </section>
 @stop
 @section('js')
     <script>
         $(document).ready(function() {
-            $('#tb_analisa').DataTable();
-            $('#tb_normalisasi').DataTable();
-            $('#tb_rangking').DataTable();
+            $('#DataTable').DataTable();
         });
     </script>
 @stop

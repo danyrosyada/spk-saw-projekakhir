@@ -12,4 +12,9 @@ class Periode extends Model
     protected $table = 'periode';
     protected $guarded = [];
     protected $primaryKey = 'id_periode';
+
+    public function penilaian()
+    {
+        return $this->hasMany(Penilaian::class, 'id_periode');
+    }
 }

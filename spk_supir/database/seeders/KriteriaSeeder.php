@@ -18,13 +18,13 @@ class KriteriaSeeder extends Seeder
             'nama_kriteria' => 'Tes Keahlian Mengemudi',
             'jenis' => 'Pertanyaan',
             'attribut' => 'Benefit',
-            'bobot' => 25,
+            'bobot' => 20,
         ]);
         DB::table('kriteria')->insert([
-            'nama_kriteria' => 'Wawancara',
+            'nama_kriteria' => 'Tes Wawancara',
             'jenis' => 'Pertanyaan',
             'attribut' => 'Benefit',
-            'bobot' => 30,
+            'bobot' => 25,
         ]);
         DB::table('kriteria')->insert([
             'nama_kriteria' => 'Pengalaman Kerja',
@@ -43,6 +43,12 @@ class KriteriaSeeder extends Seeder
             'jenis' => 'Crips',
             'attribut' => 'Benefit',
             'bobot' => 15,
+        ]);
+        DB::table('kriteria')->insert([
+            'nama_kriteria' => 'Status Menikah',
+            'jenis' => 'Crips',
+            'attribut' => 'Cost',
+            'bobot' => 10,
         ]);
     }
 }

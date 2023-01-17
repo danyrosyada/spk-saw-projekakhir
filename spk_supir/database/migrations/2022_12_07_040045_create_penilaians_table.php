@@ -14,9 +14,9 @@ class CreatePenilaiansTable extends Migration
     public function up()
     {
         Schema::create('penilaian', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('supir_id');
-            $table->unsignedBigInteger('periode_id');
+            $table->integer('id_penilaian')->autoIncrement();
+            $table->unsignedBigInteger('id_supir');
+            $table->unsignedBigInteger('id_periode');
             $table->double('total_score');
             $table->timestamps();
         });

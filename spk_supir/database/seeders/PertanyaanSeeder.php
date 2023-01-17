@@ -15,55 +15,45 @@ class PertanyaanSeeder extends Seeder
     public function run()
     {
         DB::table('pertanyaan')->insert([
-            'kriteria_id' => '1',
+            'id_kriteria' => '1',
             'soal' => 'Teknik Parkir',
-            'bobot' => 5,
         ]);
         DB::table('pertanyaan')->insert([
-            'kriteria_id' => '1',
+            'id_kriteria' => '1',
             'soal' => 'Teknik Tanjakan',
-            'bobot' => 5,
         ]);
         DB::table('pertanyaan')->insert([
-            'kriteria_id' => '1',
+            'id_kriteria' => '1',
             'soal' => 'Teknik Pengereman',
-            'bobot' => 5,
         ]);
         DB::table('pertanyaan')->insert([
-            'kriteria_id' => '1',
+            'id_kriteria' => '1',
             'soal' => 'Patuh Rambu Lalu Lintas',
-            'bobot' => 5,
         ]);
         DB::table('pertanyaan')->insert([
-            'kriteria_id' => '1',
+            'id_kriteria' => '1',
             'soal' => 'Keamanan Dalam Mengemudi',
-            'bobot' => 5,
         ]);
     
         DB::table('pertanyaan')->insert([
-            'kriteria_id' => '2',
+            'id_kriteria' => '2',
             'soal' => 'Wawancara Kesehatan',
-            'bobot' => 5,
         ]);
         DB::table('pertanyaan')->insert([
-            'kriteria_id' => '2',
-            'soal' => 'Wawancara Keimanan',
-            'bobot' => 5,
+            'id_kriteria' => '2',
+            'soal' => 'Trayek Pengiriman Barang',
         ]);
         DB::table('pertanyaan')->insert([
-            'kriteria_id' => '2',
-            'soal' => 'Wawancara Pemahaman',
-            'bobot' => 5,
+            'id_kriteria' => '2',
+            'soal' => 'Kedisiplinan',
         ]);
         DB::table('pertanyaan')->insert([
-            'kriteria_id' => '2',
-            'soal' => 'Wawancara Keasikan',
-            'bobot' => 5,
+            'id_kriteria' => '2',
+            'soal' => 'Komunikasi',
         ]);
         DB::table('pertanyaan')->insert([
-            'kriteria_id' => '2',
-            'soal' => 'Wawancara Kenyamanan',
-            'bobot' => 5,
+            'id_kriteria' => '2',
+            'soal' => 'Kejujuran',
         ]);
     }
 }

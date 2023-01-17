@@ -13,6 +13,7 @@
                         <button class="close" data-dismiss="alert">
                             <span>×</span>
                         </button>
+                        <i class="fas fa-check-circle"></i>
                         {{ session('success') }}
                     </div>
             @endif
@@ -22,23 +23,27 @@
                         <button class="close" data-dismiss="alert">
                             <span>×</span>
                         </button>
+                        <i class="fas fa-times-circle"></i>
                         {{ session('gagal') }}
                     </div>
             @endif
         </div>
-        <a class="btn btn-icon icon-left btn-primary" href="/supir/create" role="button"><i
-                class="fas fa-user-plus"></i>Tambah
+        <a class="btn btn-icon icon-left btn-primary" href="/supir/create" role="button">Tambah
             Data Supir</a>
         <br>
         <br>
         <div class="card card-primary">
+            <div class="card-header">
+                <h4>Data Supir</h4>
+            </div>
             <div class="card-body">
-                <table id="DataTable" class="table table-striped-columns table-hover">
+                <table id="DataTable" class="table table-bordered table-striped-columns table-hover">
                     <thead>
                         <tr>
                             <th scope="col">Id Supir</th>
-                            {{-- <th scope="col">Periode</th> --}}
                             <th scope="col">Nama</th>
+                            <th scope="col">Lahir</th>
+                            <th scope="col">No Hp</th>
                             <th scope="col">Alamat</th>
                             <th scope="col">Aksi</th>
                         </tr>
@@ -47,12 +52,11 @@
                         @foreach ($supir as $s)
                             <tr>
                                 <td>{{ $s->id_supir }}</td>
-                                {{-- <td>{{ $s->periode_id }}</td> --}}
                                 <td>{{ $s->nama }}</td>
+                                <td>{{ $s->lahir }}, {{ $s->tgl_lahir }}</td>
+                                <td>{{ $s->hp }}</td>
                                 <td>{{ $s->alamat }}</td>
                                 <td>
-                                    <a href="/supir/{{ $s->id_supir }}" class="btn btn-sm btn-info">
-                                        <i class="fa fa-eye"></i></a>
                                     <a href="/supir/{{ $s->id_supir }}/edit" class="btn btn-sm btn-warning">
                                         <i class="fa fa-edit"></i></a>
                                     <a href="{{ route('supir.destroy', $s->id_supir) }}"

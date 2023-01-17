@@ -9,17 +9,19 @@ class DetailTes extends Model
 {
     use HasFactory;
 
-    
     protected $table = 'detail_tes';
     protected $guarded = [];
+    protected $primaryKey = 'id_detail_tes';
+
 
     public function pertanyaan()
     {
-        return $this->belongsTo(Pertanyaan::class, 'pertanyaan_id');
+        return $this->belongsTo(Pertanyaan::class, 'id_pertanyaan');
     }
+
     public function jawaban()
     {
-        return $this->belongsTo(Jawaban::class, 'jawaban_id');
+        return $this->belongsTo(Jawaban::class, 'id_jawaban');
     }
 
 }

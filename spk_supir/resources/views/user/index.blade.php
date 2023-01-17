@@ -12,6 +12,7 @@
                         <button class="close" data-dismiss="alert">
                             <span>×</span>
                         </button>
+                        <i class="fas fa-check-circle"></i>
                         {{ session('success') }}
                     </div>
             @endif
@@ -21,18 +22,21 @@
                         <button class="close" data-dismiss="alert">
                             <span>×</span>
                         </button>
+                        <i class="fas fa-times-circle"></i>
                         {{ session('gagal') }}
                     </div>
             @endif
         </div>
-        <a class="btn btn-icon icon-left btn-primary" href="/user/create" role="button"><i
-                class="fas fa-user-plus"></i>Tambah
-            Data</a>
+        <a class="btn btn-icon icon-left btn-primary" href="/user/create" role="button">Tambah
+            Data User</a>
         <br>
         <br>
         <div class="card card-primary">
+            <div class="card-header">
+                <h4>Data User</h4>
+            </div>
             <div class="card-body">
-                <table id="DataTable" class="table table-striped-columns table-hover">
+                <table id="DataTable" class="table table-bordered table-striped-columns table-hover">
                     <thead>
                         <tr>
                             <th scope="col">#</th>

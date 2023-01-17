@@ -10,7 +10,7 @@
                 <div class="col-md-4">
                     <div class="card card-primary">
                         <div class="card-header">
-                            <h4>Periode</h4>
+                            <h4>Edit Periode</h4>
                         </div>
                         <div class="card-body">
                             <form action="/periode/{{ $periode->id_periode }}" method="POST">
@@ -40,7 +40,7 @@
                                 </div>
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-primary btn-lg btn-block">
-                                        Ubah
+                                        Update
                                     </button>
                                     <a href="/periode" class="btn btn-danger btn-lg btn-block">Batal</a>
                                 </div>
