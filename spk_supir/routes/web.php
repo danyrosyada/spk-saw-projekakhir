@@ -49,6 +49,7 @@ Route::resource('crips', CripsController::class)->middleware('super_admin')->par
 Route::resource('/periode', PeriodeController::class)->middleware('auth')->parameters([
     'periode' => 'periode:id_periode',
 ])->except('show', 'destroy');
+
 Route::resource('/supir', SupirController::class)->middleware('auth')->parameters([
     'supir' => 'supir:id_supir',
 ])->except('show');
@@ -60,7 +61,7 @@ Route::resource('/penilaian', PenilaianController::class)->middleware('auth')->p
     'penilaian' => 'penilaian:id_penilaian',
 ]);
 Route::get('/penilaian/detail/{id}', [PenilaianController::class, 'detail'])->middleware('auth');
-Route::resource('supir.penilaian', PenilaianController::class)->middleware('super_admin')->except('show');
+// Route::resource('supir.penilaian', PenilaianController::class)->middleware('super_admin')->except('show');
 Route::resource('kriteria.pertanyaan', PertanyaanController::class)->middleware('super_admin')->parameters([
     'pertanyaan' => 'pertanyaan:id_pertanyaan',
 ]);

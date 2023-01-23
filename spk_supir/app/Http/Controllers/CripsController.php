@@ -26,7 +26,6 @@ class CripsController extends Controller
         $crips->bobot = $request->bobot;
         $crips->save();
         return redirect('/kriteria/' . $request->id_kriteria)->with('success', 'Crips berhasil ditambahkan');
-        // return redirect('crips')->with('success', 'Crips berhasil ditambahkan');
     }
     public function edit($id)
     {

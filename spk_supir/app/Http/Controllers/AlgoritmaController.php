@@ -11,7 +11,6 @@ class AlgoritmaController extends Controller
 
     public function index()
     {
-
         $periode = Periode::with('penilaian')->get();
         $data = [
             'title' => 'Periode Penilaian',
